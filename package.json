@@ -32,6 +32,7 @@
     "@angular/common": "^9.0.0-rc.0",
     "@angular/compiler": "^9.0.0-rc.0",
     "@angular/core": "^9.0.0-rc.0",
+    "@angular/fire": "^5.2.1",
     "@angular/forms": "^9.0.0-rc.0",
     "@angular/platform-browser": "^9.0.0-rc.0",
     "@angular/platform-browser-dynamic": "^9.0.0-rc.0",

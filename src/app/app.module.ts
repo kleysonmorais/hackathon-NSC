@@ -40,6 +40,8 @@ import { AppRoutingModule } from './app.routing';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { ChartsModule } from 'ng2-charts';
+import { ConfigFirebase } from './configFirebase';
+import { AngularFireModule } from '@angular/fire';
 
 @NgModule({
   imports: [
@@ -54,7 +56,8 @@ import { ChartsModule } from 'ng2-charts';
     PerfectScrollbarModule,
     BsDropdownModule.forRoot(),
     TabsModule.forRoot(),
-    ChartsModule
+    ChartsModule,
+    AngularFireModule.initializeApp(ConfigFirebase.FIREBASE_CONFIG)
   ],
   declarations: [
     AppComponent,

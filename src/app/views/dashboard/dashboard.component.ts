@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { AngularFireDatabase } from "@angular/fire/database";
 
 @Component({
   templateUrl: 'dashboard.component.html'
@@ -8,6 +9,24 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 export class DashboardComponent implements OnInit {
 
   radioModel: string = 'Month';
+  private PATH = "/new_messenger";
+  data;
+
+  constructor(private db: AngularFireDatabase) {
+
+  }
+
+  index() {
+    return this.db
+      .list(this.PATH)
+      .snapshotChanges()
+      .subscribe(items => {
+        // console.log(items);
+        this.data = items.map(item => ({ key: item.key, ...item.payload.val() }));
+        console.log(this.data);
+
+      });
+  }
 
   // lineChart1
   public lineChart1Data: Array<any> = [
@@ -241,7 +260,7 @@ export class DashboardComponent implements OnInit {
       mode: 'index',
       position: 'nearest',
       callbacks: {
-        labelColor: function(tooltipItem, chart) {
+        labelColor: function (tooltipItem, chart) {
           return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor };
         }
       }
@@ -254,7 +273,7 @@ export class DashboardComponent implements OnInit {
           drawOnChartArea: false,
         },
         ticks: {
-          callback: function(value: any) {
+          callback: function (value: any) {
             return value.charAt(0);
           }
         }
@@ -372,6 +391,34 @@ export class DashboardComponent implements OnInit {
   ];
   public brandBoxChartLegend = false;
   public brandBoxChartType = 'line';
+
+  // Pie
+  public pieChartLabels: string[] = ['Não Assinantes', 'Assinantes'];
+  public pieChartData: number[] = [651, 349];
+  public pieChartType = 'pie';
+
+  // barChart
+  public barChartOptions: any = {
+    scaleShowVerticalLines: false,
+    responsive: true
+  };
+  public barChartLabels: string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+  public barChartType = 'bar';
+  public barChartLegend = true;
+
+  public barChartData: any[] = [
+    { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
+    { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
+  ];
+
+  // Radar
+  public radarChartLabels: string[] = ['Blumenau', 'Chapecó', 'Criciúma', 'Florianópolis', 'Itajaí', 'Joinville', 'Lages'];
+
+  public radarChartData: any = [
+    { data: [65, 59, 90, 81, 56, 55, 40], label: 'Mensagens Recebidas' },
+    { data: [28, 48, 40, 19, 96, 27, 100], label: 'Mensagens Tratadas' }
+  ];
+  public radarChartType = 'radar';
 
   public random(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1) + min);
